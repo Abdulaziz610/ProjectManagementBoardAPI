@@ -4,6 +4,7 @@ package com.BoardAPI.ProjectManagementBoardAPI.Controllers;
 import com.BoardAPI.ProjectManagementBoardAPI.Models.BoardModel;
 import com.BoardAPI.ProjectManagementBoardAPI.Repository.BoardRepo;
 import com.BoardAPI.ProjectManagementBoardAPI.RequestObjects.BoardRequest;
+import com.BoardAPI.ProjectManagementBoardAPI.ResponseObjects.AllBoardsResponse;
 import com.BoardAPI.ProjectManagementBoardAPI.ResponseObjects.BoardResponse;
 import com.BoardAPI.ProjectManagementBoardAPI.Services.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,14 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBoard);
     }
 
+    @GetMapping(value = "/api/boards")
+    public ResponseEntity<AllBoardsResponse> getAllBoards() {
+        List<BoardResponse> boards = boardService.getAllBoards();
+        AllBoardsResponse getAllBoards = new AllBoardsResponse(boards);
+        return ResponseEntity.status(HttpStatus.CREATED).body(getAllBoards);
+    }
 
-
+}
 
 
 
@@ -63,4 +70,4 @@ public class BoardController {
         return boardService.getBoardInfo(idOfBoard);
     }
 */
-}
+

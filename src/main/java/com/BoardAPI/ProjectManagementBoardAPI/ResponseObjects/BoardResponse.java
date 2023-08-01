@@ -16,7 +16,8 @@ public class BoardResponse {
     Integer board_id;
     String name;
     Map<Integer, String> columns;
-   // List<String> boardCards;
+}
+// List<String> boardCards;
 
 
     /*
@@ -38,4 +39,4 @@ public class BoardResponse {
     */
 
 
-}
+

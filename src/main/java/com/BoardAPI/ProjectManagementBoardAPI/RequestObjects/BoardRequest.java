@@ -15,6 +15,8 @@ public class BoardRequest {
 
     String title;
 
+}
+
   //  List<String> boardCards;
 
 
@@ -37,4 +39,4 @@ public class BoardRequest {
 
 
  */
-}
+

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,7 +21,7 @@ public class BoardService {
     public BoardResponse createBoard(BoardRequest boardRequest) {
         BoardModel newBoard = new BoardModel();
         newBoard.setTitle(boardRequest.getTitle());
-       // newBoard.setCards(new ArrayList<>());
+        // newBoard.setCards(new ArrayList<>());
         newBoard.setNewDate(new Date());
         newBoard.setIsActive(true);
         boardRepo.save(newBoard);
@@ -34,7 +35,21 @@ public class BoardService {
         return response;
     }
 
+    public List<BoardResponse> getAllBoards() {
+        List<BoardModel> boardModels = boardRepo.findAll();
+        List<BoardResponse> boards = new ArrayList<>();
+        for (BoardModel boardModel : boardModels) {
+            BoardResponse response = BoardResponse.builder()
+                    .board_id(boardModel.getId())
+                    .name(boardModel.getTitle())
+                    .columns(Map.of(1, "To do", 2, "In progress", 3, "Done"))
+                    .build();
+            boards.add(response);
+        }
+        return boards;
+    }
 
+}
 
 
 
@@ -76,4 +91,3 @@ public class BoardService {
 */
 
 
-}
