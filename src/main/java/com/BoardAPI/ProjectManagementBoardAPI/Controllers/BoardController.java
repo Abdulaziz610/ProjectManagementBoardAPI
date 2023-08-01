@@ -30,7 +30,7 @@ public class BoardController {
     }
 
 
-    @GetMapping(value = "/api/recipes")
+    @GetMapping
     public BoardResponse getBoardInfo(@RequestParam Integer idOfBoard) {
         return boardService.getBoardInfo(idOfBoard);
     }
