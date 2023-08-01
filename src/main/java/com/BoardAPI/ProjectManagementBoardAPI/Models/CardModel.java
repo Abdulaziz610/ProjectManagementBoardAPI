@@ -14,6 +14,7 @@ public class CardModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    String id;
     String title;
     String description;
     String Section;

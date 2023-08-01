@@ -1,15 +1,13 @@
 package com.BoardAPI.ProjectManagementBoardAPI.Models;
 
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@Entity
 public class BoardModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
