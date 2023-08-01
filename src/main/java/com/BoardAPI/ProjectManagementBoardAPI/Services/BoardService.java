@@ -20,7 +20,7 @@ public class BoardService {
         newBoard.setNewDate(new Date());
         newBoard.setIsActive(Boolean.TRUE);
         boardRepo.save(newBoard);
-        return "Successfully Saved The Recipe";
+        return "Successfully Saved The information";
     }
 
 

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "board" )
+@RequestMapping(value = "/api/boards" )
 public class BoardController {
 
     @Autowired
@@ -25,10 +25,10 @@ public class BoardController {
     //List<BoardModel> boards = new ArrayList<>();
 
 
-    @PostMapping(value = "/api/boards")
+    @PostMapping
     public String createBoard(@RequestBody BoardRequest boardRequest) {
         boardService.createBoard(boardRequest);
-        return "Successfully Saved The Recipe";
+        return "Successfully Saved The information";
     }
 
 }
