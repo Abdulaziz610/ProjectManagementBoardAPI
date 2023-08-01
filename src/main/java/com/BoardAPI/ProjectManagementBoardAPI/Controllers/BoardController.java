@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/boards" )
+@RequestMapping(value = "/api/boards")
 public class BoardController {
 
     @Autowired
     BoardService boardService;
     @Autowired
     BoardRepo boardRepo;
-    //List<BoardModel> boards = new ArrayList<>();
+
 
 
     @PostMapping
