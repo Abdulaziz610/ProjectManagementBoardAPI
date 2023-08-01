@@ -4,6 +4,7 @@ package com.BoardAPI.ProjectManagementBoardAPI.Services;
 import com.BoardAPI.ProjectManagementBoardAPI.Models.BoardModel;
 import com.BoardAPI.ProjectManagementBoardAPI.Repository.BoardRepo;
 import com.BoardAPI.ProjectManagementBoardAPI.RequestObjects.BoardRequest;
+import com.BoardAPI.ProjectManagementBoardAPI.ResponseObjects.BoardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,10 @@ public class BoardService {
         return "Successfully Saved The information";
     }
 
+
+    public BoardResponse getBoardInfo(Integer ifOfBoard) {
+        return BoardResponse.convertToResponse(boardRepo.findById(ifOfBoard).get());
+    }
 
 
 
