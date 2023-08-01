@@ -7,13 +7,15 @@ import com.BoardAPI.ProjectManagementBoardAPI.RequestObjects.BoardRequest;
 import com.BoardAPI.ProjectManagementBoardAPI.ResponseObjects.BoardResponse;
 import com.BoardAPI.ProjectManagementBoardAPI.Services.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/boards")
+@RequestMapping(value = "board")
 public class BoardController {
 
     @Autowired
@@ -21,18 +23,44 @@ public class BoardController {
     @Autowired
     BoardRepo boardRepo;
 
+    @PostMapping(value = "/api/boards")
+    public ResponseEntity<BoardResponse> createBoard(@RequestBody BoardRequest boardRequest) {
+        BoardResponse createdBoard = boardService.createBoard(boardRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdBoard);
+    }
 
 
-    @PostMapping
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   /* @PostMapping(value = "/api/boards")
     public String createBoard(@RequestBody BoardRequest boardRequest) {
         boardService.createBoard(boardRequest);
         return "Successfully Saved The information";
     }
 
 
-    @GetMapping
+    @GetMapping(value = "/api/boards/{id}")
     public BoardResponse getBoardInfo(@RequestParam Integer idOfBoard) {
         return boardService.getBoardInfo(idOfBoard);
     }
-
+*/
 }

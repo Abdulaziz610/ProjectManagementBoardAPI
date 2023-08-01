@@ -12,8 +12,10 @@ import java.util.List;
 @Getter
 @Setter
 public class BoardRequest {
-    String boardTitle;
-    List<String> boardCards;
+
+    String title;
+
+  //  List<String> boardCards;
 
 
     /*
@@ -23,11 +25,16 @@ public class BoardRequest {
      *
      * */
 
-
+/*
     public static BoardModel convertToEntity(BoardModel entity, BoardRequest boardRequest) {
+
         entity.setTitle(boardRequest.getBoardTitle());
         entity.setCards(boardRequest.getBoardCards());
         return entity;
 
+
     }
+
+
+ */
 }

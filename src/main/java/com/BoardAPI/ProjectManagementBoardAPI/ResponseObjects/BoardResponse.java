@@ -6,14 +6,17 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
 
 public class BoardResponse {
-    Integer id;
-    String boardTitle;
-    List<String> boardCards;
+
+    Integer board_id;
+    String name;
+    Map<Integer, String> columns;
+   // List<String> boardCards;
 
 
     /*
@@ -22,7 +25,7 @@ public class BoardResponse {
      *
      *
      * */
-
+/*
     public static BoardResponse convertToResponse(BoardModel entity) {
         return BoardResponse.builder()
                 .id(entity.getId())
@@ -31,5 +34,8 @@ public class BoardResponse {
                 .build();
 
     }
+
+    */
+
 
 }
