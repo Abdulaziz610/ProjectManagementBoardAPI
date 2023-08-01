@@ -24,11 +24,10 @@ public class BoardRequest {
      * */
 
 
-    public static BoardModel convertToEntity(BoardModel entity, BoardRequest requestForRecipe) {
-        entity.setTitle(requestForRecipe.getBoardTitle());
-        entity.setCards(requestForRecipe.getBoardCards());
+    public static BoardModel convertToEntity(BoardModel entity, BoardRequest boardRequest) {
+        entity.setTitle(boardRequest.getBoardTitle());
+        entity.setCards(boardRequest.getBoardCards());
         return entity;
 
     }
-
 }

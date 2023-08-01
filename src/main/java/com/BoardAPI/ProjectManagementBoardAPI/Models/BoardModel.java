@@ -4,6 +4,7 @@ package com.BoardAPI.ProjectManagementBoardAPI.Models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -16,4 +17,7 @@ public class BoardModel {
     String title;
     @ElementCollection
     List<String> cards;
+    Date newDate;
+    Date updateDate;
+    Boolean isActive;
 }
