@@ -68,6 +68,17 @@ public class BoardService {
         }
     }
 
+    public boolean deleteBoard(Integer boardId) {
+        Optional<BoardModel> optionalBoard = boardRepo.findById(boardId);
+        if (optionalBoard.isPresent()) {
+            BoardModel boardModel = optionalBoard.get();
+            boardRepo.delete(boardModel);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
 
 

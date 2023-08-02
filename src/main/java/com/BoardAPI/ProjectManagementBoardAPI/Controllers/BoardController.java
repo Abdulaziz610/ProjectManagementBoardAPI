@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "board")
@@ -43,6 +45,22 @@ public class BoardController {
     public ResponseEntity<BoardResponse> updateBoard(@PathVariable Integer boardId, @RequestBody BoardRequest boardRequest) throws ChangeSetPersister.NotFoundException {
         BoardResponse updatedBoard = boardService.updateBoard(boardId, boardRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedBoard);
+    }
+
+    @DeleteMapping("/api/boards/{boardId}") // Endpoint for deleting a board by ID
+    public ResponseEntity<Map<String, String>> deleteBoard(@PathVariable Integer boardId) {
+        boolean isDeleted = boardService.deleteBoard(boardId);
+        if (isDeleted) {
+            Map<String, String> response = new HashMap<>();
+            response.put("successful", "true");
+            response.put("message", "Board with ID " + boardId + " has been deleted successfully.");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("successful", "false");
+            response.put("message", "Board with ID " + boardId + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
     }
 
 }
