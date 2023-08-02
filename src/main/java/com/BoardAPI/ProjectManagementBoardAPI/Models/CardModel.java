@@ -1,27 +1,18 @@
 package com.BoardAPI.ProjectManagementBoardAPI.Models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.Date;
-
 @Data
 @Entity
-
 public class CardModel {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long card_id;
     String title;
     String description;
-    String Section;
-
-
+    Integer section;
     Date newDate;
     Date updateDate;
     Boolean isActive;
