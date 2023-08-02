@@ -97,5 +97,21 @@ public class CardService {
             throw new ChangeSetPersister.NotFoundException();
         }
     }
-
+    public void deleteCardFromBoard(Integer board_id, Long card_id) throws ChangeSetPersister.NotFoundException {
+        Optional<BoardModel> optionalBoard = boardRepo.findById(board_id);
+        if (optionalBoard.isPresent()) {
+            BoardModel boardModel = optionalBoard.get();
+            Optional<CardModel> optionalCard = cardRepo.findById(Math.toIntExact(card_id));
+            if (optionalCard.isPresent()) {
+                CardModel cardModel = optionalCard.get();
+                boardModel.getCards().remove(cardModel.getCard_id().toString());
+                boardRepo.save(boardModel);
+                cardRepo.delete(cardModel);
+            } else {
+                throw new ChangeSetPersister.NotFoundException();
+            }
+        } else {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+    }
 }

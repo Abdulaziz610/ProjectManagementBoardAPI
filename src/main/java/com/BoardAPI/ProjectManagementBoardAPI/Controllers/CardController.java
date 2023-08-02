@@ -39,5 +39,10 @@ public class CardController {
         CardResponse updatedCard = cardService.updateCardOnBoard(board_id, card_id, cardRequest);
         return ResponseEntity.ok(updatedCard);
     }
-
+    @DeleteMapping(value = "/api/boards/{board_id}/cards/{card_id}")
+    public ResponseEntity<String> deleteCardFromBoard(@PathVariable Integer board_id, @PathVariable Long card_id) throws ChangeSetPersister.NotFoundException {
+        cardService.deleteCardFromBoard(board_id, card_id);
+        String responseMessage = String.format("Card with ID %d has been deleted successfully from board %d.", card_id, board_id);
+        return ResponseEntity.ok(responseMessage);
+    }
 }
