@@ -66,36 +66,3 @@ public class BoardController {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   /* @PostMapping(value = "/api/boards")
-    public String createBoard(@RequestBody BoardRequest boardRequest) {
-        boardService.createBoard(boardRequest);
-        return "Successfully Saved The information";
-    }
-
-
-    @GetMapping(value = "/api/boards/{id}")
-    public BoardResponse getBoardInfo(@RequestParam Integer idOfBoard) {
-        return boardService.getBoardInfo(idOfBoard);
-    }
-*/
-
