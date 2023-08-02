@@ -34,4 +34,10 @@ public class CardController {
         return ResponseEntity.ok(cardResponse);
     }
 
+    @PutMapping(value = "/api/boards/{board_id}/cards/{card_id}")
+    public ResponseEntity<CardResponse> updateCardOnBoard(@PathVariable Integer board_id, @PathVariable Long card_id, @RequestBody CardRequest cardRequest) throws ChangeSetPersister.NotFoundException {
+        CardResponse updatedCard = cardService.updateCardOnBoard(board_id, card_id, cardRequest);
+        return ResponseEntity.ok(updatedCard);
+    }
+
 }

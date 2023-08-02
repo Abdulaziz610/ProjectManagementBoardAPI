@@ -77,4 +77,25 @@ public class CardService {
             throw new ChangeSetPersister.NotFoundException();
         }
     }
+    public CardResponse updateCardOnBoard(Integer board_id, Long card_id, CardRequest cardRequest) throws ChangeSetPersister.NotFoundException {
+        Optional<BoardModel> optionalBoard = boardRepo.findById(board_id);
+        if (optionalBoard.isPresent()) {
+            BoardModel boardModel = optionalBoard.get();
+            Optional<CardModel> optionalCard = cardRepo.findById(Math.toIntExact(card_id));
+            if (optionalCard.isPresent()) {
+                CardModel cardModel = optionalCard.get();
+                cardModel.setTitle(cardRequest.getTitle());
+                cardModel.setDescription(cardRequest.getDescription());
+                cardModel.setSection(cardRequest.getSection());
+                cardRepo.save(cardModel);
+
+                return new CardResponse(cardModel);
+            } else {
+                throw new ChangeSetPersister.NotFoundException();
+            }
+        } else {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+    }
+
 }
