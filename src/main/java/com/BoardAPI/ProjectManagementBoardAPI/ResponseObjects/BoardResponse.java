@@ -16,6 +16,7 @@ public class BoardResponse {
     Integer board_id;
     String name;
     Map<Integer, String> columns;
+    List<String> column;
 }
 // List<String> boardCards;
 

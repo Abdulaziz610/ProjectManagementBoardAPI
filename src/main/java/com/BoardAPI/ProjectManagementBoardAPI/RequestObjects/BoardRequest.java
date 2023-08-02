@@ -14,6 +14,7 @@ import java.util.List;
 public class BoardRequest {
 
     String title;
+    String name;
 
 }
 

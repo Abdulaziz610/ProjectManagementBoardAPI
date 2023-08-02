@@ -6,12 +6,10 @@ import com.BoardAPI.ProjectManagementBoardAPI.Repository.BoardRepo;
 import com.BoardAPI.ProjectManagementBoardAPI.RequestObjects.BoardRequest;
 import com.BoardAPI.ProjectManagementBoardAPI.ResponseObjects.BoardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BoardService {
@@ -47,6 +45,27 @@ public class BoardService {
             boards.add(response);
         }
         return boards;
+    }
+
+
+    public BoardResponse updateBoard(Integer boardId, BoardRequest boardRequest) throws ChangeSetPersister.NotFoundException {
+        Optional<BoardModel> optionalBoard = boardRepo.findById(boardId);
+        if (optionalBoard.isPresent()) {
+            BoardModel boardModel = optionalBoard.get();
+            boardModel.setTitle(boardRequest.getName());
+            boardRepo.save(boardModel);
+
+            // Create the response object for the updated board
+            BoardResponse response = BoardResponse.builder()
+                    .board_id(boardModel.getId())
+                    .name(boardModel.getTitle())
+                    .column(List.of("To do", "In progress", "Done")) // Assuming fixed columns
+                    .build();
+            return response;
+        } else {
+            // Handle board not found scenario
+            throw new ChangeSetPersister.NotFoundException();
+        }
     }
 
 }
