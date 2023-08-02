@@ -9,7 +9,6 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -29,4 +28,10 @@ public class CardController {
         List<CardResponse> cardResponses = cardService.getAllCardsFromBoard(board_id);
         return ResponseEntity.ok(cardResponses);
    }
+    @GetMapping(value = "/api/boards/{board_id}/cards/{card_id}")
+    public ResponseEntity<CardResponse> getCardFromBoardById(@PathVariable Integer board_id, @PathVariable Long card_id) throws ChangeSetPersister.NotFoundException {
+        CardResponse cardResponse = cardService.getCardFromBoardById(board_id, card_id);
+        return ResponseEntity.ok(cardResponse);
+    }
+
 }
