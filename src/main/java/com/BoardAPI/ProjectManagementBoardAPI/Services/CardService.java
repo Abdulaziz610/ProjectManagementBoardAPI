@@ -77,5 +77,4 @@ public class CardService {
             throw new ChangeSetPersister.NotFoundException();
         }
     }
-
 }
