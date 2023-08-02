@@ -18,6 +18,9 @@ public class BoardModel {
     @ElementCollection
     List<String> cards;
     Date newDate;
-    Date updateDate;
+    Date update_date;
     Boolean isActive;
+
+    public void setUpdateDate(Date date) {
+    }
 }

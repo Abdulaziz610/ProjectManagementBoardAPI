@@ -53,6 +53,7 @@ public class BoardService {
         if (optionalBoard.isPresent()) {
             BoardModel boardModel = optionalBoard.get();
             boardModel.setTitle(boardRequest.getName());
+            boardModel.setUpdateDate(new Date()); // Set the updateDate to the current date
             boardRepo.save(boardModel);
 
             // Create the response object for the updated board
@@ -80,44 +81,5 @@ public class BoardService {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    public  String createBoard(BoardRequest boardRequest) {
-        BoardModel newBoard = new BoardModel();
-        newBoard = BoardRequest.convertToEntity(newBoard, boardRequest);
-        newBoard.setNewDate(new Date());
-        newBoard.setIsActive(Boolean.TRUE);
-        boardRepo.save(newBoard);
-        return "Successfully Saved The information";
-    }
-
-    public BoardResponse getBoardInfo(Integer ifOfBoard) {
-        return BoardResponse.convertToResponse(boardRepo.findById(ifOfBoard).get());
-    }
-*/
 
 
