@@ -18,6 +18,35 @@
     <!-- Boards will be displayed here -->
 </div>
 
+<!-- Display all cards -->
+<div id="boardsList">
+    <!-- Boards will be displayed here -->
+</div>
+
+<!-- Edit Card Modal -->
+<div id="editCardModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit Card</h2>
+        <form id="editCardForm">
+            <input type="text" id="editCardTitle" placeholder="Card Title" required>
+            <input type="text" id="editCardDescription" placeholder="Card Description" required>
+            <input type="number" id="editCardSection" placeholder="Card Section (1 - To do, 2 - In progress, 3 - Done)" required>
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Card Modal -->
+<div id="deleteCardModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Delete Card</h2>
+        <p>Are you sure you want to delete this card?</p>
+        <button id="confirmDeleteCard">Delete Card</button>
+    </div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>

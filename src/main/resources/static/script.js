@@ -37,7 +37,7 @@ async function updateBoard(boardId, title) {
 // Function to delete a board by ID
 async function deleteBoard(boardId) {
     const response = await fetch(`/board/api/boards/${boardId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
     });
     const data = await response.json();
     return data;
@@ -171,6 +171,7 @@ async function showCards(boardId) {
         boardList.appendChild(cardsList);
     }
 
+    // Create a new card form
     const addCardForm = document.createElement('form');
     addCardForm.innerHTML = `
         <input type="text" id="cardTitle" placeholder="Card Title" required>
@@ -185,7 +186,7 @@ async function showCards(boardId) {
         const cardDescription = document.getElementById('cardDescription').value;
         const cardSection = parseInt(document.getElementById('cardSection').value);
         if (cardTitle && cardDescription && cardSection >= 1 && cardSection <= 3) {
-            await addCard(boardId, { title: cardTitle, description: cardDescription, section: cardSection });
+            await addCardToBoard(boardId, { title: cardTitle, description: cardDescription, section: cardSection });
             showCards(boardId);
         }
     });
