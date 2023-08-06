@@ -18,26 +18,3 @@ public class BoardResponse {
     Map<Integer, String> columns;
     List<String> column;
 }
-// List<String> boardCards;
-
-
-    /*
-     *
-     * Response object for retrieving Board information.
-     *
-     *
-     * */
-/*
-    public static BoardResponse convertToResponse(BoardModel entity) {
-        return BoardResponse.builder()
-                .id(entity.getId())
-                .boardTitle(entity.getTitle())
-                .boardCards(entity.getCards())
-                .build();
-
-    }
-
-    */
-
-
-

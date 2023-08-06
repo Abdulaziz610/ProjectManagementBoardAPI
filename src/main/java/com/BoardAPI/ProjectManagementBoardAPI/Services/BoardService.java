@@ -21,6 +21,7 @@ public class BoardService {
         newBoard.setTitle(boardRequest.getTitle());
         // newBoard.setCards(new ArrayList<>());
         newBoard.setNewDate(new Date());
+        newBoard.setUpdateDate(new Date());
         newBoard.setIsActive(true);
         boardRepo.save(newBoard);
 
