@@ -12,6 +12,7 @@ async function createBoard(title) {
     return data;
 }
 
+
 // Function to get all boards
 async function getAllBoards() {
     const response = await fetch('/board/api/boards');
