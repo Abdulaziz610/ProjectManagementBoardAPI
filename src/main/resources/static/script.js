@@ -96,13 +96,38 @@ async function loadBoards() {
         boardElement.innerHTML = `<h2>${board.name}</h2>`;
         const boardButtons = document.createElement('div');
         boardButtons.innerHTML = `
-            <button onclick="showCards(${board.board_id})">View Cards</button>
-            <button onclick="editBoard(${board.board_id})">Edit Board</button>
-            <button onclick="deleteBoard(${board.board_id})">Delete Board</button>
+            <button class="view-btn" data-board-id="${board.board_id}">View Cards</button>
+            <button class="edit-btn" data-board-id="${board.board_id}">Edit Board</button>
+            <button class="delete-btn" data-board-id="${board.board_id}">Delete Board</button>
         `;
         boardElement.appendChild(boardButtons);
         boardsList.appendChild(boardElement);
     });
+
+    const viewButtons = document.getElementsByClassName('view-btn');
+    const editButtons = document.getElementsByClassName('edit-btn');
+    const deleteButtons = document.getElementsByClassName('delete-btn');
+
+    for (let i = 0; i < viewButtons.length; i++) {
+        viewButtons[i].addEventListener('click', () => {
+            const boardId = viewButtons[i].getAttribute('data-board-id');
+            showCards(boardId);
+        });
+    }
+
+    for (let i = 0; i < editButtons.length; i++) {
+        editButtons[i].addEventListener('click', () => {
+            const boardId = editButtons[i].getAttribute('data-board-id');
+            editBoard(boardId);
+        });
+    }
+
+    for (let i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener('click', () => {
+            const boardId = deleteButtons[i].getAttribute('data-board-id');
+            deleteBoard(boardId);
+        });
+    }
 }
 
 // Function to handle the form submission and create a new board
