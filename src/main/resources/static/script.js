@@ -283,5 +283,6 @@ async function deleteCard() {
         showCards(boardId);
     }
 }
+
 // Call loadBoards() on page load
 loadBoards();
