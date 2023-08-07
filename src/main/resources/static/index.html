@@ -14,26 +14,36 @@
 </form>
 
 <!-- Display all boards -->
-<div id="boardsList">
-    <!-- Boards will be displayed here -->
+<div>
+    <h2>Boards List:</h2>
+    <div id="boardsList">
+        <!-- Boards will be displayed here -->
+    </div>
 </div>
 
-<!-- Input fields to edit a card -->
-<div>
-    <input type="text" id="editCardId" placeholder="Card ID to Edit">
-    <input type="text" id="editCardTitle" placeholder="New Card Title">
-    <input type="text" id="editCardDescription" placeholder="New Card Description">
-    <input type="number" id="editCardSection" placeholder="New Card Section (1 - To do, 2 - In progress, 3 - Done)">
-    <button onclick="editCard(document.getElementById('editCardId').value)">Edit Card</button>
-</div>
+<!-- Display all cards -->
+<div style="display: none;" id="cardsContainer">
+    <h2>Cards List:</h2>
+    <div id="cardsList">
+        <!-- Cards will be displayed here -->
+    </div>
 
-<!-- Input fields to delete a card -->
-<div>
-    <input type="text" id="deleteCardId" placeholder="Card ID to Delete">
-    <button onclick="deleteCard()">Delete Card</button>
+    <!-- Input fields to edit a card -->
+    <div>
+        <input type="text" id="editCardId" placeholder="Card ID to Edit">
+        <input type="text" id="editCardTitle" placeholder="New Card Title">
+        <input type="text" id="editCardDescription" placeholder="New Card Description">
+        <input type="number" id="editCardSection" placeholder="New Card Section (1 - To do, 2 - In progress, 3 - Done)">
+        <button onclick="editCard(getCurrentBoardId(), document.getElementById('editCardId').value)">Edit Card</button>
+    </div>
+
+    <!-- Input fields to delete a card -->
+    <div>
+        <input type="text" id="deleteCardId" placeholder="Card ID to Delete">
+        <button onclick="deleteCard(getCurrentBoardId())">Delete Card</button>
+    </div>
 </div>
 
 <script src="script.js"></script>
 </body>
-
 </html>

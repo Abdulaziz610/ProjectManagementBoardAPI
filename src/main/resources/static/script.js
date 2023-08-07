@@ -90,6 +90,9 @@ async function deleteCardFromBoard(boardId, cardId) {
 async function loadBoards() {
     const boards = await getAllBoards();
     const boardsList = document.getElementById('boardsList');
+    boardsList.style.display = 'block'; // Show the board list
+    const cardsContainer = document.getElementById('cardsContainer');
+    cardsContainer.style.display = 'none'; // Hide the cards list
     boardsList.innerHTML = '';
 
     boards.forEach(board => {
@@ -140,11 +143,15 @@ document.getElementById('createBoardForm').addEventListener('submit', async (e) 
 });
 
 // Function to show all cards for a specific board
- async function showCards(boardId) {
-     currentBoardId = boardId;
-     const cards = await getAllCardsFromBoard(boardId);
-     const boardList = document.getElementById('boardsList');
-     boardList.innerHTML = ''; // Clear previous board data
+async function showCards(boardId) {
+    currentBoardId = boardId;
+    const cards = await getAllCardsFromBoard(boardId);
+    const boardList = document.getElementById('boardsList');
+    boardList.style.display = 'none'; // Hide the board list
+    const cardsContainer = document.getElementById('cardsContainer');
+    cardsContainer.style.display = 'block'; // Show the cards list
+    const cardsList = document.getElementById('cardsList');
+    cardsList.innerHTML = '';
 
      const boardTitle = document.createElement('h2');
      boardTitle.textContent = `Board ID: ${boardId}`;
@@ -156,23 +163,22 @@ document.getElementById('createBoardForm').addEventListener('submit', async (e) 
          boardList.appendChild(noCardsMessage);
      } else {
          const cardsList = document.createElement('ul');
-         cardsList.setAttribute('id', 'cardsList');
+                 cardsList.setAttribute('id', 'cardsList');
 
-         cards.forEach(card => {
-             const cardItem = document.createElement('li');
-             cardItem.innerHTML = `
-                 <p><strong>Card ID:</strong> ${card.card_id}</p>
-                 <p><strong>Title:</strong> ${card.title}</p>
-                 <p><strong>Description:</strong> ${card.description ? card.description : 'N/A'}</p>
-                 <p><strong>Section:</strong> ${card.section ? card.section : 'N/A'}</p>
-                 <button onclick="editCard(${boardId}, ${card.card_id})">Edit Card</button>
-                 <button onclick="deleteCard(${boardId}, ${card.card_id})">Delete Card</button>
-             `;
-             cardsList.appendChild(cardItem);
-         });
+                 cards.forEach(card => {
+                     const cardItem = document.createElement('li');
+                     cardItem.innerHTML = `
+                         <p><strong>Card ID:</strong> ${card.card_id}</p>
+                         <p><strong>Title:</strong> ${card.title}</p>
+                         <p><strong>Description:</strong> ${card.description ? card.description : 'N/A'}</p>
+                         <p><strong>Section:</strong> ${card.section ? card.section : 'N/A'}</p>
 
-         boardList.appendChild(cardsList);
-     }
+                     `;
+                     cardsList.appendChild(cardItem);
+                 });
+
+                 cardsContainer.appendChild(cardsList); // Append to cardsContainer
+             }
 
      // Create a new card form
      const addCardForm = document.createElement('form');
@@ -194,7 +200,7 @@ document.getElementById('createBoardForm').addEventListener('submit', async (e) 
          }
      });
 
-     boardList.appendChild(addCardForm);
+     cardsList.appendChild(addCardForm);
  }
 
 // Function to edit a card
