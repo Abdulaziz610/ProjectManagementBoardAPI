@@ -18,6 +18,21 @@
     <!-- Boards will be displayed here -->
 </div>
 
+<!-- Input fields to edit a card -->
+<div>
+    <input type="text" id="editCardId" placeholder="Card ID to Edit">
+    <input type="text" id="editCardTitle" placeholder="New Card Title">
+    <input type="text" id="editCardDescription" placeholder="New Card Description">
+    <input type="number" id="editCardSection" placeholder="New Card Section (1 - To do, 2 - In progress, 3 - Done)">
+    <button onclick="editCard(document.getElementById('editCardId').value)">Edit Card</button>
+</div>
+
+<!-- Input fields to delete a card -->
+<div>
+    <input type="text" id="deleteCardId" placeholder="Card ID to Delete">
+    <button onclick="deleteCard()">Delete Card</button>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>

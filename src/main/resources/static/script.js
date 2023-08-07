@@ -1,3 +1,4 @@
+let currentBoardId = null;
 // Function to create a new board
 async function createBoard(title) {
     const boardRequest = { title };
@@ -140,6 +141,7 @@ document.getElementById('createBoardForm').addEventListener('submit', async (e) 
 
 // Function to show all cards for a specific board
 async function showCards(boardId) {
+    currentBoardId = boardId;
     const cards = await getAllCardsFromBoard(boardId);
     const boardList = document.getElementById('boardsList');
     boardList.innerHTML = ''; // Clear previous board data
@@ -153,24 +155,24 @@ async function showCards(boardId) {
         noCardsMessage.textContent = 'No cards found for this board.';
         boardList.appendChild(noCardsMessage);
     } else {
-        const cardsList = document.createElement('ul');
-        cardsList.setAttribute('id', 'cardsList');
+const cardsList = document.createElement('ul');
+    cardsList.setAttribute('id', 'cardsList');
 
-        cards.forEach(card => {
-            const cardItem = document.createElement('li');
-            cardItem.innerHTML = `
-                <p><strong>Title:</strong> ${card.title}</p>
-                <p><strong>Description:</strong> ${card.description ? card.description : 'N/A'}</p>
-                <p><strong>Section:</strong> ${card.section ? card.section : 'N/A'}</p>
-                <button onclick="editCard(${boardId}, ${card.card_id})">Edit Card</button>
-                <button onclick="deleteCard(${boardId}, ${card.card_id})">Delete Card</button>
-            `;
-            cardsList.appendChild(cardItem);
-        });
+    cards.forEach(card => {
+        const cardItem = document.createElement('li');
+        cardItem.innerHTML = `
+            <p><strong>Card ID:</strong> ${card.card_id}</p>
+            <p><strong>Title:</strong> ${card.title}</p>
+            <p><strong>Description:</strong> ${card.description ? card.description : 'N/A'}</p>
+            <p><strong>Section:</strong> ${card.section ? card.section : 'N/A'}</p>
+            <button onclick="editCard(${boardId}, ${card.card_id})">Edit Card</button>
+            <button onclick="deleteCard(${boardId}, ${card.card_id})">Delete Card</button>
+        `;
+        cardsList.appendChild(cardItem);
+    });
 
-        boardList.appendChild(cardsList);
-    }
-
+    boardList.appendChild(cardsList);
+}
     // Create a new card form
     const addCardForm = document.createElement('form');
     addCardForm.innerHTML = `
@@ -193,13 +195,26 @@ async function showCards(boardId) {
 
     boardList.appendChild(addCardForm);
 }
-// Function to edit a board
-async function editBoard(boardId) {
-    const newTitle = prompt('Enter the new board title:');
-    if (newTitle) {
-        await updateBoard(boardId, newTitle);
-        loadBoards();
+
+// Function to edit a card
+async function editCard(boardId, cardId) {
+    const newCardId = prompt('Enter the card ID to edit:');
+    if (!newCardId) {
+        alert('Please enter a valid card ID.');
+        return;
     }
+
+    const cardTitle = document.getElementById('editCardTitle').value;
+    const cardDescription = document.getElementById('editCardDescription').value;
+    const cardSection = parseInt(document.getElementById('editCardSection').value);
+
+    if (!cardTitle || isNaN(cardSection) || cardSection < 1 || cardSection > 3) {
+        alert('Please provide valid inputs for Card Title and Section (1 - To do, 2 - In progress, 3 - Done).');
+        return;
+    }
+
+    await updateCardOnBoard(boardId, newCardId, { title: cardTitle, description: cardDescription, section: cardSection });
+    showCards(boardId);
 }
 
 // Function to delete a board
@@ -221,24 +236,47 @@ async function addCard(boardId) {
     }
 }
 
-// Function to edit a card
-async function editCard(boardId, cardId) {
-    const cardTitle = prompt('Enter the new card title:');
-    const cardDescription = prompt('Enter the new card description:');
-    const cardSection = parseInt(prompt('Enter the new card section (1 - To do, 2 - In progress, 3 - Done):'));
-    if (cardTitle && cardDescription && cardSection >= 1 && cardSection <= 3) {
-        await updateCardOnBoard(boardId, cardId, { title: cardTitle, description: cardDescription, section: cardSection });
-        showCards(boardId);
-    }
+
+function getCurrentBoardId() {
+
+    return currentBoardId;
 }
 
+// Function to edit a card
+async function editCard() {
+
+    const cardId = document.getElementById('editCardId').value;
+    const cardTitle = document.getElementById('editCardTitle').value;
+    const cardDescription = document.getElementById('editCardDescription').value;
+    const cardSection = parseInt(document.getElementById('editCardSection').value);
+
+    if (!cardId || !cardTitle || isNaN(cardSection) || cardSection < 1 || cardSection > 3) {
+        alert('Please provide valid inputs for Card ID, Title, and Section (1 - To do, 2 - In progress, 3 - Done).');
+        return;
+    }
+
+    const boardId = getCurrentBoardId(); // Implement this function to get the current board ID.
+
+    await updateCardOnBoard(boardId, cardId, { title: cardTitle, description: cardDescription, section: cardSection });
+    showCards(boardId);
+}
+
+
+
 // Function to delete a card
-async function deleteCard(boardId, cardId) {
+async function deleteCard() {
+    const boardId = getCurrentBoardId(); // Implement this function to get the current board ID.
+    const cardId = document.getElementById('deleteCardId').value;
+
+    if (!cardId) {
+        alert('Please enter a valid card ID.');
+        return;
+    }
+
     if (confirm('Are you sure you want to delete this card?')) {
         await deleteCardFromBoard(boardId, cardId);
         showCards(boardId);
     }
 }
-
 // Call loadBoards() on page load
 loadBoards();
