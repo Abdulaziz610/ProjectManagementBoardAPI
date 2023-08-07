@@ -140,61 +140,62 @@ document.getElementById('createBoardForm').addEventListener('submit', async (e) 
 });
 
 // Function to show all cards for a specific board
-async function showCards(boardId) {
-    currentBoardId = boardId;
-    const cards = await getAllCardsFromBoard(boardId);
-    const boardList = document.getElementById('boardsList');
-    boardList.innerHTML = ''; // Clear previous board data
+ async function showCards(boardId) {
+     currentBoardId = boardId;
+     const cards = await getAllCardsFromBoard(boardId);
+     const boardList = document.getElementById('boardsList');
+     boardList.innerHTML = ''; // Clear previous board data
 
-    const boardTitle = document.createElement('h2');
-    boardTitle.textContent = `Board ID: ${boardId}`;
-    boardList.appendChild(boardTitle);
+     const boardTitle = document.createElement('h2');
+     boardTitle.textContent = `Board ID: ${boardId}`;
+     boardList.appendChild(boardTitle);
 
-    if (cards.length === 0) {
-        const noCardsMessage = document.createElement('p');
-        noCardsMessage.textContent = 'No cards found for this board.';
-        boardList.appendChild(noCardsMessage);
-    } else {
-const cardsList = document.createElement('ul');
-    cardsList.setAttribute('id', 'cardsList');
+     if (cards.length === 0) {
+         const noCardsMessage = document.createElement('p');
+         noCardsMessage.textContent = 'No cards found for this board.';
+         boardList.appendChild(noCardsMessage);
+     } else {
+         const cardsList = document.createElement('ul');
+         cardsList.setAttribute('id', 'cardsList');
 
-    cards.forEach(card => {
-        const cardItem = document.createElement('li');
-        cardItem.innerHTML = `
-            <p><strong>Card ID:</strong> ${card.card_id}</p>
-            <p><strong>Title:</strong> ${card.title}</p>
-            <p><strong>Description:</strong> ${card.description ? card.description : 'N/A'}</p>
-            <p><strong>Section:</strong> ${card.section ? card.section : 'N/A'}</p>
-            <button onclick="editCard(${boardId}, ${card.card_id})">Edit Card</button>
-            <button onclick="deleteCard(${boardId}, ${card.card_id})">Delete Card</button>
-        `;
-        cardsList.appendChild(cardItem);
-    });
+         cards.forEach(card => {
+             const cardItem = document.createElement('li');
+             cardItem.innerHTML = `
+                 <p><strong>Card ID:</strong> ${card.card_id}</p>
+                 <p><strong>Title:</strong> ${card.title}</p>
+                 <p><strong>Description:</strong> ${card.description ? card.description : 'N/A'}</p>
+                 <p><strong>Section:</strong> ${card.section ? card.section : 'N/A'}</p>
+                 <button onclick="editCard(${boardId}, ${card.card_id})">Edit Card</button>
+                 <button onclick="deleteCard(${boardId}, ${card.card_id})">Delete Card</button>
+             `;
+             cardsList.appendChild(cardItem);
+         });
 
-    boardList.appendChild(cardsList);
-}
-    // Create a new card form
-    const addCardForm = document.createElement('form');
-    addCardForm.innerHTML = `
-        <input type="text" id="cardTitle" placeholder="Card Title" required>
-        <input type="text" id="cardDescription" placeholder="Card Description" required>
-        <input type="number" id="cardSection" placeholder="Card Section (1 - To do, 2 - In progress, 3 - Done)" required>
-        <button type="submit">Add Card</button>
-    `;
+         boardList.appendChild(cardsList);
+     }
 
-    addCardForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const cardTitle = document.getElementById('cardTitle').value;
-        const cardDescription = document.getElementById('cardDescription').value;
-        const cardSection = parseInt(document.getElementById('cardSection').value);
-        if (cardTitle && cardDescription && cardSection >= 1 && cardSection <= 3) {
-            await addCardToBoard(boardId, { title: cardTitle, description: cardDescription, section: cardSection });
-            showCards(boardId);
-        }
-    });
+     // Create a new card form
+     const addCardForm = document.createElement('form');
+     addCardForm.innerHTML = `
+         <input type="text" id="cardTitle" placeholder="Card Title" required>
+         <input type="text" id="cardDescription" placeholder="Card Description" required>
+         <input type="number" id="cardSection" placeholder="Card Section (1 - To do, 2 - In progress, 3 - Done)" required>
+         <button type="submit">Add Card</button>
+     `;
 
-    boardList.appendChild(addCardForm);
-}
+     addCardForm.addEventListener('submit', async (e) => {
+         e.preventDefault();
+         const cardTitle = document.getElementById('cardTitle').value;
+         const cardDescription = document.getElementById('cardDescription').value;
+         const cardSection = parseInt(document.getElementById('cardSection').value);
+         if (cardTitle && cardDescription && cardSection >= 1 && cardSection <= 3) {
+             await addCardToBoard(boardId, { title: cardTitle, description: cardDescription, section: cardSection });
+             showCards(boardId);
+         }
+     });
+
+     boardList.appendChild(addCardForm);
+ }
 
 // Function to edit a card
 async function editCard(boardId, cardId) {
@@ -244,7 +245,6 @@ function getCurrentBoardId() {
 
 // Function to edit a card
 async function editCard() {
-
     const cardId = document.getElementById('editCardId').value;
     const cardTitle = document.getElementById('editCardTitle').value;
     const cardDescription = document.getElementById('editCardDescription').value;
@@ -256,7 +256,6 @@ async function editCard() {
     }
 
     const boardId = getCurrentBoardId(); // Implement this function to get the current board ID.
-
     await updateCardOnBoard(boardId, cardId, { title: cardTitle, description: cardDescription, section: cardSection });
     showCards(boardId);
 }
