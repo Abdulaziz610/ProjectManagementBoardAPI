@@ -147,61 +147,130 @@ async function showCards(boardId) {
     currentBoardId = boardId;
     const cards = await getAllCardsFromBoard(boardId);
     const boardList = document.getElementById('boardsList');
-    boardList.style.display = 'none'; // Hide the board list
+    boardList.style.display = 'none';
     const cardsContainer = document.getElementById('cardsContainer');
-    cardsContainer.style.display = 'block'; // Show the cards list
+    cardsContainer.style.display = 'block';
     const cardsList = document.getElementById('cardsList');
     cardsList.innerHTML = '';
 
-     const boardTitle = document.createElement('h2');
-     boardTitle.textContent = `Board ID: ${boardId}`;
-     boardList.appendChild(boardTitle);
+    const boardTitle = document.createElement('h2');
+    boardTitle.textContent = `Board ID: ${boardId}`;
+    cardsList.appendChild(boardTitle);
 
-     if (cards.length === 0) {
-         const noCardsMessage = document.createElement('p');
-         noCardsMessage.textContent = 'No cards found for this board.';
-         boardList.appendChild(noCardsMessage);
-     } else {
-         const cardsList = document.createElement('ul');
-                 cardsList.setAttribute('id', 'cardsList');
+    if (cards.length === 0) {
+        const noCardsMessage = document.createElement('p');
+        noCardsMessage.textContent = 'No cards found for this board.';
+        cardsList.appendChild(noCardsMessage);
+    } else {
+        cards.forEach(card => {
+            const cardItem = document.createElement('div');
+            cardItem.classList.add('card');
+            cardItem.innerHTML = `
+                <p><strong>Card ID:</strong> ${card.card_id}</p>
+                <p><strong>Title:</strong> ${card.title}</p>
+                <p><strong>Description:</strong> ${card.description ? card.description : 'N/A'}</p>
+            `;
 
-                 cards.forEach(card => {
-                     const cardItem = document.createElement('li');
-                     cardItem.innerHTML = `
-                         <p><strong>Card ID:</strong> ${card.card_id}</p>
-                         <p><strong>Title:</strong> ${card.title}</p>
-                         <p><strong>Description:</strong> ${card.description ? card.description : 'N/A'}</p>
-                         <p><strong>Section:</strong> ${card.section ? card.section : 'N/A'}</p>
+            const targetContainerId = `${sectionToContainerId(card.section)}Cards`;
+            const targetContainer = document.getElementById(targetContainerId);
+            targetContainer.appendChild(cardItem);
 
-                     `;
-                     cardsList.appendChild(cardItem);
-                 });
+            cardItem.addEventListener('click', () => {
+                handleCardClick(card.card_id, card.section + 1);
+            });
+        });
 
-                 cardsContainer.appendChild(cardsList); // Append to cardsContainer
-             }
-
-     // Create a new card form
+// Create a new card form
      const addCardForm = document.createElement('form');
-     addCardForm.innerHTML = `
-         <input type="text" id="cardTitle" placeholder="Card Title" required>
-         <input type="text" id="cardDescription" placeholder="Card Description" required>
-         <input type="number" id="cardSection" placeholder="Card Section (1 - To do, 2 - In progress, 3 - Done)" required>
-         <button type="submit">Add Card</button>
-     `;
+    addCardForm.innerHTML = `
+         Card Title: <input type="text" id="cardTitle" required> Card Description:
+        <input type="text" id="cardDescription" required>
+        <select id="cardSection" required>
+            <option value="">Select Section</option>
+            <option value="1">To Do</option>
+            <option value="2">In Progress</option>
+            <option value="3">Done</option>
+        </select>
+        <button type="submit">Add Card</button>
+    `;
 
-     addCardForm.addEventListener('submit', async (e) => {
-         e.preventDefault();
-         const cardTitle = document.getElementById('cardTitle').value;
-         const cardDescription = document.getElementById('cardDescription').value;
-         const cardSection = parseInt(document.getElementById('cardSection').value);
-         if (cardTitle && cardDescription && cardSection >= 1 && cardSection <= 3) {
-             await addCardToBoard(boardId, { title: cardTitle, description: cardDescription, section: cardSection });
-             showCards(boardId);
-         }
-     });
+    addCardForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const cardTitle = document.getElementById('cardTitle').value;
+        const cardDescription = document.getElementById('cardDescription').value;
+        const cardSection = parseInt(document.getElementById('cardSection').value);
+        if (cardTitle && cardDescription && cardSection >= 1 && cardSection <= 3) {
+            await addCardToBoard(boardId, { title: cardTitle, description: cardDescription, section: cardSection });
+            showCards(boardId);
+        }
+    });
 
-     cardsList.appendChild(addCardForm);
- }
+    cardsList.appendChild(addCardForm);
+
+
+        const editCardForm = document.createElement('form');
+        editCardForm.innerHTML = `
+            <label for="editCardId">Card ID:</label>
+            <input type="text" id="editCardId" required>
+            <label for="editCardTitle">Title:</label>
+            <input type="text" id="editCardTitle" required>
+            <label for="editCardDescription">Description:</label>
+            <input type="text" id="editCardDescription">
+            <label for="editCardSection">Section:</label>
+            <select id="editCardSection" required>
+                <option value="">Select Section</option>
+                <option value="1">To Do</option>
+                <option value="2">In Progress</option>
+                <option value="3">Done</option>
+            </select>
+            <button type="submit">Update Card</button>
+        `;
+
+        editCardForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const cardId = document.getElementById('editCardId').value;
+            const cardTitle = document.getElementById('editCardTitle').value;
+            const cardDescription = document.getElementById('editCardDescription').value;
+            const cardSection = parseInt(document.getElementById('editCardSection').value);
+
+            if (!cardId || !cardTitle || isNaN(cardSection) || cardSection < 1 || cardSection > 3) {
+                alert('Please provide valid inputs for Card ID, Title, and Section (1 - To do, 2 - In progress, 3 - Done).');
+                return;
+            }
+
+            await updateCardOnBoard(boardId, cardId, { title: cardTitle, description: cardDescription, section: cardSection });
+            showCards(boardId);
+        });
+
+        cardsList.appendChild(editCardForm);
+    }
+
+    function sectionToContainerId(section) {
+        switch (section) {
+            case 1:
+                return 'todo';
+            case 2:
+                return 'inprogress';
+            case 3:
+                return 'done';
+            default:
+                return 'todo';
+        }
+    }
+
+  // Function to move a card to a different section
+    async function moveCard(cardId, section) {
+        const boardId = getCurrentBoardId();
+        const cardData = await updateCardOnBoard(boardId, cardId, { section: section });
+        showCards(boardId);
+    }
+
+    // Update card section when a card is clicked
+    function handleCardClick(cardId, section) {
+        if (confirm('Move this card to the selected section?')) {
+            moveCard(cardId, section);
+        }
+    }
 
 // Function to edit a card
 async function editCard(boardId, cardId) {
@@ -213,14 +282,14 @@ async function editCard(boardId, cardId) {
 
     const cardTitle = document.getElementById('editCardTitle').value;
     const cardDescription = document.getElementById('editCardDescription').value;
-    const cardSection = parseInt(document.getElementById('editCardSection').value);
+    const cardSection = prompt('Select Section: \n1 - To Do \n2 - In Progress \n3 - Done');
 
     if (!cardTitle || isNaN(cardSection) || cardSection < 1 || cardSection > 3) {
         alert('Please provide valid inputs for Card Title and Section (1 - To do, 2 - In progress, 3 - Done).');
         return;
     }
 
-    await updateCardOnBoard(boardId, newCardId, { title: cardTitle, description: cardDescription, section: cardSection });
+    await updateCardOnBoard(boardId, newCardId, { title: cardTitle, description: cardDescription, section: parseInt(cardSection) });
     showCards(boardId);
 }
 

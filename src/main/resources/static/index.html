@@ -2,48 +2,107 @@
 <html>
 <head>
     <title>Project Management Board</title>
-    <!-- Other HTML head elements here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        /* Container styles */
+        #container {
+            display: flex;
+        }
+
+        /* Column styles */
+        .column {
+            flex: 1;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin: 0 10px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .column h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        /* Card styles */
+        .card {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Button styles */
+        button {
+            padding: 8px 15px;
+            background-color: #0079bf;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #005a8a;
+        }
+
+        /* Form styles */
+        form {
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
 <h1>Project Management Board</h1>
-
-<!-- Form to create a new board -->
 <form id="createBoardForm">
     <input type="text" id="boardTitle" placeholder="Board Title" required>
     <button type="submit">Create Board</button>
 </form>
 
-<!-- Display all boards -->
+<div id="container">
+    <div class="column" id="todo">
+        <h2>To Do</h2>
+    </div>
+    <div class="column" id="inprogress">
+        <h2>In Progress</h2>
+    </div>
+    <div class="column" id="done">
+        <h2>Done</h2>
+    </div>
+</div>
+
 <div>
-    <h2>Boards List:</h2>
-    <div id="boardsList">
-        <!-- Boards will be displayed here -->
-    </div>
+    <input type="text" id="deleteCardId" placeholder="Card ID to Delete">
+    <button onclick="deleteCard()">Delete Card</button>
 </div>
-
-<!-- Display all cards -->
-<div style="display: none;" id="cardsContainer">
-    <h2>Cards List:</h2>
-    <div id="cardsList">
-        <!-- Cards will be displayed here -->
-    </div>
-
-    <!-- Input fields to edit a card -->
-    <div>
-        <input type="text" id="editCardId" placeholder="Card ID to Edit">
-        <input type="text" id="editCardTitle" placeholder="New Card Title">
-        <input type="text" id="editCardDescription" placeholder="New Card Description">
-        <input type="number" id="editCardSection" placeholder="New Card Section (1 - To do, 2 - In progress, 3 - Done)">
-        <button onclick="editCard(getCurrentBoardId(), document.getElementById('editCardId').value)">Edit Card</button>
-    </div>
-
-    <!-- Input fields to delete a card -->
-    <div>
-        <input type="text" id="deleteCardId" placeholder="Card ID to Delete">
-        <button onclick="deleteCard(getCurrentBoardId())">Delete Card</button>
-    </div>
-</div>
-
 
 <script src="script.js"></script>
 </body>
