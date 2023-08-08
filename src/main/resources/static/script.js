@@ -150,17 +150,23 @@ async function showCards(boardId) {
     boardList.style.display = 'none';
     const cardsContainer = document.getElementById('cardsContainer');
     cardsContainer.style.display = 'block';
-    const cardsList = document.getElementById('cardsList');
-    cardsList.innerHTML = '';
+
+    // Clear existing cards from all columns
+    const todoContainer = document.getElementById('todoCards');
+    const inProgressContainer = document.getElementById('inprogressCards');
+    const doneContainer = document.getElementById('doneCards');
+    todoContainer.innerHTML = '';
+    inProgressContainer.innerHTML = '';
+    doneContainer.innerHTML = '';
 
     const boardTitle = document.createElement('h2');
     boardTitle.textContent = `Board ID: ${boardId}`;
-    cardsList.appendChild(boardTitle);
+    cardsContainer.insertBefore(boardTitle, cardsContainer.firstChild);
 
     if (cards.length === 0) {
         const noCardsMessage = document.createElement('p');
         noCardsMessage.textContent = 'No cards found for this board.';
-        cardsList.appendChild(noCardsMessage);
+        cardsContainer.appendChild(noCardsMessage);
     } else {
         cards.forEach(card => {
             const cardItem = document.createElement('div');
@@ -179,6 +185,9 @@ async function showCards(boardId) {
                 handleCardClick(card.card_id, card.section + 1);
             });
         });
+    }
+}
+
 
 // Create a new card form
      const addCardForm = document.createElement('form');
@@ -243,8 +252,6 @@ async function showCards(boardId) {
         });
 
         cardsList.appendChild(editCardForm);
-    }
-
     function sectionToContainerId(section) {
         switch (section) {
             case 1:
@@ -259,13 +266,13 @@ async function showCards(boardId) {
     }
 
   // Function to move a card to a different section
-    async function moveCard(cardId, section) {
-        const boardId = getCurrentBoardId();
-        const cardData = await updateCardOnBoard(boardId, cardId, { section: section });
-        showCards(boardId);
-    }
+  async function moveCard(cardId, section) {
+      const boardId = getCurrentBoardId();
+      const cardData = await updateCardOnBoard(boardId, cardId, { section: section });
+      showCards(boardId);
+  }
 
-    // Update card section when a card is clicked
+    // Function to handle the card click event
     function handleCardClick(cardId, section) {
         if (confirm('Move this card to the selected section?')) {
             moveCard(cardId, section);
@@ -273,23 +280,19 @@ async function showCards(boardId) {
     }
 
 // Function to edit a card
-async function editCard(boardId, cardId) {
-    const newCardId = prompt('Enter the card ID to edit:');
-    if (!newCardId) {
-        alert('Please enter a valid card ID.');
-        return;
-    }
-
+async function editCard() {
+    const cardId = document.getElementById('editCardId').value;
     const cardTitle = document.getElementById('editCardTitle').value;
     const cardDescription = document.getElementById('editCardDescription').value;
-    const cardSection = prompt('Select Section: \n1 - To Do \n2 - In Progress \n3 - Done');
+    const cardSection = parseInt(document.getElementById('editCardSection').value);
 
-    if (!cardTitle || isNaN(cardSection) || cardSection < 1 || cardSection > 3) {
-        alert('Please provide valid inputs for Card Title and Section (1 - To do, 2 - In progress, 3 - Done).');
+    if (!cardId || !cardTitle || isNaN(cardSection) || cardSection < 1 || cardSection > 3) {
+        alert('Please provide valid inputs for Card ID, Title, and Section (1 - To do, 2 - In progress, 3 - Done).');
         return;
     }
 
-    await updateCardOnBoard(boardId, newCardId, { title: cardTitle, description: cardDescription, section: parseInt(cardSection) });
+    const boardId = getCurrentBoardId(); // Implement this function to get the current board ID.
+    await updateCardOnBoard(boardId, cardId, { title: cardTitle, description: cardDescription, section: cardSection });
     showCards(boardId);
 }
 
@@ -318,22 +321,6 @@ function getCurrentBoardId() {
     return currentBoardId;
 }
 
-// Function to edit a card
-async function editCard() {
-    const cardId = document.getElementById('editCardId').value;
-    const cardTitle = document.getElementById('editCardTitle').value;
-    const cardDescription = document.getElementById('editCardDescription').value;
-    const cardSection = parseInt(document.getElementById('editCardSection').value);
-
-    if (!cardId || !cardTitle || isNaN(cardSection) || cardSection < 1 || cardSection > 3) {
-        alert('Please provide valid inputs for Card ID, Title, and Section (1 - To do, 2 - In progress, 3 - Done).');
-        return;
-    }
-
-    const boardId = getCurrentBoardId(); // Implement this function to get the current board ID.
-    await updateCardOnBoard(boardId, cardId, { title: cardTitle, description: cardDescription, section: cardSection });
-    showCards(boardId);
-}
 
 
 
