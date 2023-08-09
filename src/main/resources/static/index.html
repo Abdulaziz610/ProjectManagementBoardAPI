@@ -2,52 +2,80 @@
 <html>
 <head>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Project Management Board</title>
     <!-- Other HTML head elements here -->
 </head>
 <body>
-<h1>Project Management Board</h1>
+<div class="container">
+    <h1 class="my-4">Project Management Board</h1>
 
-<!-- Form to create a new board -->
-<form id="createBoardForm">
-    <input type="text" id="boardTitle" placeholder="Board Title" required>
-    <button type="submit">Create Board</button>
-</form>
-
-<!-- Display all boards -->
+    <!-- Form to create a new board -->
+    <form id="createBoardForm" class="mb-4">
+        <div class="input-group">
+            <input type="text" id="boardTitle" class="form-control" placeholder="Board Title" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Create Board</button>
+            </div>
+        </div>
+    </form>
 <div>
-    <h2>Boards List:</h2>
-    <div id="boardsList">
-        <!-- Boards will be displayed here -->
+
+</div>
+    <!-- Three-column layout for cards -->
+    <div id="container" class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card todo-column">
+                <div class="card-header">
+                    <h2 class="card-title">To Do</h2>
+                </div>
+                <div class="card-body column-cards" id="todoCards"></div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card inprogress-column">
+                <div class="card-header">
+                    <h2 class="card-title">In Progress</h2>
+                </div>
+                <div class="card-body column-cards" id="inprogressCards"></div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card done-column">
+                <div class="card-header">
+                    <h2 class="card-title">Done</h2>
+                </div>
+                <div class="card-body column-cards" id="doneCards"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Display all cards -->
+    <div style="display: none;" id="cardsContainer">
+        <h2>Cards List:</h2>
+        <div id="cardsList">
+            <!-- Cards will be displayed here -->
+        </div>
+
+        <!-- Input fields to delete a card -->
+        <div class="card-actions mt-3">
+            <div class="input-group d-flex align-items-end">
+                <input type="text" id="deleteCardId" class="form-control" placeholder="Card ID to Delete">
+                <div class="input-group-append">
+                    <button class="btn btn-danger" onclick="deleteCard(getCurrentBoardId())">Delete Card</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Display all boards -->
+    <div>
+        <div id="boardsList">
+            <!-- Boards will be displayed here -->
+        </div>
     </div>
 </div>
 
-<!-- Display all cards -->
-<div style="display: none;" id="cardsContainer">
-    <h2>Cards List:</h2>
-    <div id="cardsList">
-        <!-- Cards will be displayed here -->
-    </div>
-    <div id="container" class="board">
-        <div class="column" id="todo">
-            <h2>To Do</h2>
-            <div class="cards-list" id="todoCards"></div>
-        </div>
-        <div class="column" id="inprogress">
-            <h2>In Progress</h2>
-            <div class="cards-list" id="inprogressCards"></div>
-        </div>
-        <div class="column" id="done">
-            <h2>Done</h2>
-            <div class="cards-list" id="doneCards"></div>
-        </div>
-    </div>
-    <!-- Input fields to delete a card -->
-    <div class="card-actions">
-        <input type="text" id="deleteCardId" placeholder="Card ID to Delete">
-        <button onclick="deleteCard(getCurrentBoardId())">Delete Card</button>
-    </div>
-</div>
 <script src="script.js"></script>
 </body>
 </html>

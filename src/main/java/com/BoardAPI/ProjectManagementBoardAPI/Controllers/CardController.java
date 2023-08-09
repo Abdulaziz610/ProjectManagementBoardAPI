@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "board")
+@CrossOrigin("*")
 public class CardController {
     @Autowired
     CardService cardService;

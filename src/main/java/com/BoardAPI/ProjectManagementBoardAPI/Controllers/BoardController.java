@@ -20,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "board")
+@CrossOrigin("*")
 public class BoardController {
 
     @Autowired
