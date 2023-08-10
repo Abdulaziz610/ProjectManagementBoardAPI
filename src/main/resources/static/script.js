@@ -1,8 +1,10 @@
+const API_BASE_URL = 'http://localhost:8080';
+
 let currentBoardId = null;
-// Function to create a new board
+
 async function createBoard(title) {
     const boardRequest = { title };
-    const response = await fetch('/board/api/boards', {
+    const response = await fetch(`${API_BASE_URL}/board/api/boards`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -13,35 +15,30 @@ async function createBoard(title) {
     return data;
 }
 
-
-// Function to get all boards
 async function getAllBoards() {
-    const response = await fetch('/board/api/boards');
+    const response = await fetch(`${API_BASE_URL}/board/api/boards`);
     const data = await response.json();
     return data.boards;
 }
 
-// Function to delete a board by ID
 async function deleteBoardById(boardId) {
-    const response = await fetch(`/board/api/boards/${boardId}`, {
+    const response = await fetch(`${API_BASE_URL}/board/api/boards/${boardId}`, {
         method: 'DELETE',
     });
     const data = await response.json();
     return data;
 }
 
-// Function to delete a board by ID
 async function deleteBoard(boardId) {
-    const response = await fetch(`/board/api/boards/${boardId}`, {
+    const response = await fetch(`${API_BASE_URL}/board/api/boards/${boardId}`, {
         method: 'DELETE',
     });
     const data = await response.json();
     return data;
 }
 
-// Function to add a new card to a board
 async function addCardToBoard(boardId, cardData) {
-    const response = await fetch(`/board/api/boards/${boardId}/cards`, {
+    const response = await fetch(`${API_BASE_URL}/board/api/boards/${boardId}/cards`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -52,16 +49,14 @@ async function addCardToBoard(boardId, cardData) {
     return data;
 }
 
-// Function to get all cards from a board
 async function getAllCardsFromBoard(boardId) {
-    const response = await fetch(`/board/api/boards/${boardId}/cards`);
+    const response = await fetch(`${API_BASE_URL}/board/api/boards/${boardId}/cards`);
     const data = await response.json();
     return data;
 }
 
-// Function to update a card on a board
 async function updateCardOnBoard(boardId, cardId, cardData) {
-    const response = await fetch(`/board/api/boards/${boardId}/cards/${cardId}`, {
+    const response = await fetch(`${API_BASE_URL}/board/api/boards/${boardId}/cards/${cardId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -72,9 +67,8 @@ async function updateCardOnBoard(boardId, cardId, cardData) {
     return data;
 }
 
-// Function to delete a card from a board
 async function deleteCardFromBoard(boardId, cardId) {
-    const response = await fetch(`/board/api/boards/${boardId}/cards/${cardId}`, {
+    const response = await fetch(`${API_BASE_URL}/board/api/boards/${boardId}/cards/${cardId}`, {
         method: 'DELETE'
     });
     const data = await response.json();
