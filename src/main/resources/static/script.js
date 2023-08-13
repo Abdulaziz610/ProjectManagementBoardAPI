@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080';
+// Use window.location.host for the API base URL
+const API_BASE_URL = `http://${window.location.host}`;
+// windows.location.host
 
 let currentBoardId = null;
 
